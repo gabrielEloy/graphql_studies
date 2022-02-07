@@ -1,0 +1,9 @@
+enum ProfileType {
+    admin regular
+}
+
+
+type Profile {
+    id: Int!
+    name: ProfileType!
+}
