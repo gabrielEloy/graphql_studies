@@ -1,4 +1,4 @@
-const {productsArray} = require('../../db');
+const {productsArray} = require('../../../db');
 
 module.exports = {
     Query: {

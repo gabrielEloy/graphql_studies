@@ -30,6 +30,7 @@ module.exports = {
     usersArray: [{
         id: 1,
         name: "Gabriel Eloy",
+        email: "alalalalla@gmail.com",
         age: 21,
         grossIncome: 32000.52,
         isActive: true,
@@ -37,6 +38,7 @@ module.exports = {
     },{
         id: 2,
         name: "Some dude",
+        email: "alalalalla@gmail.com",
         age: 32,
         grossIncome: 8200.00,
         isActive: true,

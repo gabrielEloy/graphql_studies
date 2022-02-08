@@ -1,0 +1,27 @@
+type User {
+    id: ID
+    age: Int
+    salary: Float
+    email: String
+    name: String
+    isActive: Boolean
+    profile: Profile
+}
+
+
+type Query {
+    users: [User]
+    user(id: Int): User
+}
+
+input UserInput {
+    name: String,
+    email: String,
+    phone: String
+}
+
+
+type Mutation{
+    createUser(data: UserInput): User!
+    updateUser(id: Int,data: UserInput): User!
+}
