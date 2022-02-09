@@ -1,4 +1,4 @@
-const {usersArray, profiles} = require('../../../db');
+const db  = require('../../../db');
 
 function generateId(arr) {
     return arr.length + 1;
@@ -7,42 +7,52 @@ function generateId(arr) {
 
 module.exports = {
     Query: {
-        users: () => usersArray,
+        users: () => db.usersArray,
         user: (_, args) => {
-            return usersArray.find(({id}) => id === args.id)
+            return db.usersArray.find(({id}) => id === args.id)
         },
     },
     Mutation: {
         createUser: (_, { data }) => {
 
-            const alreadyExists = usersArray.some(({email}) => email === data.email);
+            const alreadyExists = db.usersArray.some(({email}) => email === data.email);
 
             if(alreadyExists) {
                 throw new Error(`email ${data.email} already exists`);
             }
 
-            const newUser = {...data, id: generateId(usersArray), profile: 2}
+            const newUser = {...data, id: generateId(db.usersArray), profile: 2}
             
-            usersArray.push(newUser);
+            db.usersArray.push(newUser);
 
             return newUser; 
         },
         updateUser: (_, { id, data }) => {
-            const userIndex = usersArray.findIndex(({id: userId}) => userId === id);
-
-            console.log({userIndex})
+            const userIndex = db.usersArray.findIndex(({id: userId}) => userId === id);
 
             if(userIndex === -1){
                 throw new Error(`user with id ${id} not found`);
             }
 
-            const user = usersArray[userIndex];
+            const user = db.usersArray[userIndex];
             const editedUser = {...user, ...data};
 
-            //usersArray[userIndex] = editedUser;
-            usersArray.splice(userIndex, 1, editedUser);
+            //db.usersArray[userIndex] = editedUser;
+            db.usersArray.splice(userIndex, 1, editedUser);
 
             return editedUser;
+        },
+        deleteUser: (_, {id}) => {
+            const userIndex = db.usersArray.findIndex(({id: userId}) => userId === id);
+
+            if(userIndex === -1){
+                throw new Error(`user with id ${id} not found`);
+            }
+            const deletedUser = db.usersArray[userIndex];
+
+            db.usersArray = db.usersArray.filter(({id: userId}) => userId !== id);
+
+            return deletedUser;
         }
     },
     User: {
@@ -55,7 +65,7 @@ module.exports = {
         },
         profile: obj => {
             const { profile } = obj;
-            return profiles.find(({id}) => id === profile);
+            return db.profiles.find(({id}) => id === profile);
         }
     },
 }
