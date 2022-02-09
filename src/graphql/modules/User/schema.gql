@@ -24,4 +24,5 @@ input UserInput {
 type Mutation{
     createUser(data: UserInput): User!
     updateUser(id: Int,data: UserInput): User!
+    deleteUser(id: Int): User
 }
